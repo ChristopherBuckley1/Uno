@@ -1,21 +1,35 @@
 package Game;
 
-public class normalCard extends card{
-    private int number;
+public class normalCard{
+    private String attribute;
+    private String colour;
 
 
 
-    public normalCard(String colour, int number)
+    public normalCard(String colour, String attribute)
     {
-        super(colour);
-        setNumber(number);
+        setColour(colour);
+        setAttribute(attribute);
     }
 
-    public int getNumber() {
-        return number;
+
+    public String getColour(){return colour;}
+
+    public String getAttribute() {
+        return attribute;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public void setColour(String colour){
+        this.colour = colour;
+    }
+
+    public String toString(){
+
+
+        return "Color: "+getColour()+"\nAttribute: "+getAttribute();
     }
 }
