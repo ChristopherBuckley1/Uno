@@ -6,7 +6,7 @@ public class testGame {
     public static void main(String[] args) {
 
         //generate deck
-       normalCard allCards[] = new normalCard[103];
+       normalCard allCards[] = new normalCard[56];
         //generate numeric cards for each color
         for(int i=0;i<10;i++)
         {
@@ -42,12 +42,28 @@ public class testGame {
         allCards[49] = new normalCard("green","reverse");
         allCards[50] = new normalCard("green","draw2");
         allCards[51] = new normalCard("green","skip");
+        allCards[52] = new normalCard("black","wild");
+        allCards[53] = new normalCard("black","wild");
+        allCards[54] = new normalCard("black","draw4");
+        allCards[55] = new normalCard("black","draw4");
+
+
+        deck mainDeck = new deck(allCards);
 
         for(int j=0;j< allCards.length;j++)
         {
-            System.out.println(allCards[j]);
+            System.out.println(mainDeck.getCards()[j]);
         }
 
+
+
+
+        mainDeck.shuffle(mainDeck.getCards());
+
+     for(int j=0;j< allCards.length;j++)
+     {
+      System.out.println(mainDeck.getCards()[j]);
+     }
 
 
        // player players[] = new player[4];

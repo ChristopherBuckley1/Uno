@@ -32,4 +32,6 @@ public class normalCard{
 
         return "Color: "+getColour()+"\nAttribute: "+getAttribute();
     }
+
+
 }
