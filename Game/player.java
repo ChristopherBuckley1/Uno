@@ -1,8 +1,17 @@
 package Game;
 
+import java.util.ArrayList;
+
 public class player {
     private String name;
-    private normalCard hand[];
+    private ArrayList<normalCard> hand;
+    private int points;
+
+    public player(String name, ArrayList<normalCard> hand)
+    {
+        setName(name);
+        setHand(hand);
+    }
 
     public String getName() {
         return name;
@@ -12,17 +21,28 @@ public class player {
         this.name = name;
     }
 
-    public normalCard[] getHand() {
+    public ArrayList<normalCard> getHand() {
         return hand;
     }
 
-    public void setHand(normalCard[] hand) {
+    public void setHand(ArrayList<normalCard> hand) {
         this.hand = hand;
     }
 
-    public player(String name, normalCard hand[])
-    {
-        setName(name);
-        setHand(hand);
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public String toString(){
+        String cards = "";
+        for(int i=0;i<hand.size();i++)
+        {   if(getHand().get(i)!=null)
+            cards += getHand().get(i).toString();
+        }
+        return getName()+" details: \nPoints: "+getPoints()+"\nCards in hand  \n"+cards+"\n\n";
     }
 }
