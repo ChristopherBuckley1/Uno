@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class testGame {
     public static void main(String[] args) {
-
+        String playerCountAS ="";
         //generate deck
        normalCard allCards[] = new normalCard[56];
         //generate numeric cards for each color
@@ -58,44 +58,71 @@ public class testGame {
 
         ArrayList<normalCard> hand = new ArrayList<normalCard>();//Generate generic arraylist to insert into player objects
 
-        String choiceAS = JOptionPane.showInputDialog(null,"How many players would you like?");
-
-        int playerCount = Integer.parseInt(choiceAS);
-
         ArrayList<normalCard>[] hands = new ArrayList[5];//Array to store auto-generated player hands, maximum of 5 players so i made the size 5
 
-        for(int i=0;i<playerCount;i++)
-         {
-           hands[i] = new ArrayList<>();
-           allPlayers[i] = new player("Player "+Integer.toString(i+1),hands[i]);//generates player objects
+        String menuChoice = JOptionPane.showInputDialog("Welcome to uno! Please enter a choice\n\n1. New game\n\n2. Rules\n\n3. Quit");
 
-
-         }
-        int deckpointer = 0;//keeps track of the top card of the deck
-        //deal cards to each player
-        for(int i=0;i< playerCount;i++)
+        while(!choiceIsValid(menuChoice)) {
+           menuChoice = JOptionPane.showInputDialog("Error - Invalid choice - Please enter a number between 1 and 5\n\n1. New game\n\n2. Rules\n\n3. Quit");
+        }
+        if(choiceIsValid(menuChoice))
         {
-            for(int j=0;j<7;j++)
-            {
-               allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
-               mainDeck.getCards()[j] = null;
-               deckpointer++;
+            if (menuChoice.equals("1")) {
+                playerCountAS = JOptionPane.showInputDialog("Please enter the number of players (1-5)");
+                while(!choiceIsValid(playerCountAS))
+                {
+                    playerCountAS = JOptionPane.showInputDialog("Error - Please enter a number between 1 and 5");
+                }
+                int playerCount = Integer.parseInt(playerCountAS);
+                for (int i = 0; i < playerCount; i++) {
+                    hands[i] = new ArrayList<>();
+                    allPlayers[i] = new player("Player " + Integer.toString(i + 1), hands[i]);//generates player objects
+
+
+                }
+                int deckpointer = 0;//keeps track of the top card of the deck
+                //deal cards to each player
+                for (int i = 0; i < playerCount; i++) {
+                    for (int j = 0; j < 7; j++) {
+                        allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
+                        mainDeck.getCards()[j] = null;
+                        deckpointer++;
+                    }
+                    if (allPlayers[i] != null)
+                        System.out.println(allPlayers[i]);
+
+
+                }
             }
-            if(allPlayers[i]!=null)
-            System.out.println(allPlayers[i]);
+            else if (menuChoice.equals("2"))
+            {
+
+            }
+            else if (menuChoice.equals("3"))
+            {
+                System.exit(0);
+            }
         }
 
-       /* allPlayers[0].getHand().add(allCards[23]);
-        allCards[23] = null;
-        System.out.println(allPlayers[0].toString());*/
 
 
+    }
+    public static boolean choiceIsValid(String choice)
+    {
 
+        boolean valid =false;
+        for(int i=0;i<choice.length();i++)
+        {
+            if((Character.isDigit(choice.charAt(i)))&&(choice.length()==1))
+            {
+                int choiceInt = Integer.parseInt(choice);
+                if(choiceInt >=1 && choiceInt <=5)
+                {
+                    valid = true;
+                }
+            }
+        }
 
-
-
-
-
-
+        return valid;
     }
 }
