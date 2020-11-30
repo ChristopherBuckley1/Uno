@@ -13,7 +13,7 @@ public class testGame {
                 menuChoice = JOptionPane.showInputDialog("Welcome to uno! Please enter a choice\n\n1. New game\n\n2. Rules\n\n3. Quit");
                 while(!choiceIsValid(menuChoice))
                 {
-                    menuChoice = JOptionPane.showInputDialog("Error - Invalid choice - Please enter a number between 1 and 5\n\n1. New game\n\n2. Rules\n\n3. Quit");
+                    menuChoice = JOptionPane.showInputDialog("Error - Invalid choice - Please enter a number between 1 and 3\n\n1. New game\n\n2. Rules\n\n3. Quit");
                 }
                 if (menuChoice.equals("1"))
                 {
@@ -36,7 +36,7 @@ public class testGame {
     public static void startGame(){
 
         ArrayList<normalCard> placeholderHand = new ArrayList<normalCard>(5);
-        player winner = new player("winner",placeholderHand,0);
+
 
         String playerCountAS ="";
         //generate deck
@@ -60,10 +60,10 @@ public class testGame {
 
 
 
-        playerCountAS = JOptionPane.showInputDialog("Please enter the number of players (1-5)");
-        while(!choiceIsValid(playerCountAS))
+        playerCountAS = JOptionPane.showInputDialog("Please enter the number of players (2-5)");
+        while(!menuChoiceIsValid(playerCountAS))
         {
-            playerCountAS = JOptionPane.showInputDialog("Error - Please enter a number between 1 and 5");
+            playerCountAS = JOptionPane.showInputDialog("Error - Please enter a number between 2 and 5");
         }
 
         int playerCount = Integer.parseInt(playerCountAS);
@@ -87,28 +87,29 @@ public class testGame {
 
         int deckpointer = 0;//keeps track of the top card of the deck
 
-
+        //Dealing cards at start of game
+        if(turns == 0)
+        {
+            for (int i = 0; i < playerCount; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
+                    mainDeck.getCards()[j] = null;
+                    deckpointer++;
+                }
+            }
+        }
 
         while(gameOver != true)
         {
-            //turn begin
 
-            //Dealing cards at start of game
-            if(turns == 0)
-            {
-                for (int i = 0; i < playerCount; i++)
-                {
-                    for (int j = 0; j < 7; j++)
-                    {
-                        allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
-                        mainDeck.getCards()[j] = null;
-                        deckpointer++;
-                    }
-                }
-            }
+
+
             //Loop through player array for each players turn
             for(int i=0;i<playerCount;i++)
             {
+                //turn begin
                 cardChoiceAS = JOptionPane.showInputDialog(allPlayers[i].getName()+" Points: "+allPlayers[i].getPoints()+" \n"+
                         "Top Card: "+discardPile.get(discardPileIndex)+"\n"+allPlayers[i].getName()+
                         " - Please select a card\n\n0: Draw a card"+"\n "+  allPlayers[i].toString());
@@ -131,24 +132,7 @@ public class testGame {
 
                 int points;
 
-                if(cardChoice!=0)//calculate points
-                {
-
-                    points = 0;
-
-                    points = calculatePoints(allPlayers[i].getHand().get(cardChoice-1));
-
-                    allPlayers[i].setPoints(allPlayers[i].getPoints()+points);
-
-                    discardPile.add(allPlayers[i].getHand().get(cardChoice-1));
-
-                    allPlayers[i].getHand().remove(cardChoice-1);
-
-                    discardPileIndex++;
-                }
-
-
-                if(cardChoiceAS.equals("0"))
+                if(cardChoice==0)
                 {
                     if(deckpointer>55)
                     {
@@ -161,16 +145,109 @@ public class testGame {
                         allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
                     }
                     else
-                        {
+                    {
 
-                            allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
-                             deckpointer++;
+                        allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
 
-                        }
+                    }
 
                 }
 
+                else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("draw2"))
+                {
+                    if(deckpointer>55)
+                    {
+                        deckpointer = 0;
+                    }
+                    if (mainDeck.getCards()[deckpointer] == null)
+                    {
+                        deckpointer = 0;
+                        mainDeck.populateDeck(allCards);
+                    }
 
+                    if(i==allPlayers.length-1)//check if last player in array to avoid arrayindexoutofboundsexception
+                    {
+
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                    }
+
+
+
+
+                    else
+                    {
+
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                    }
+
+                }
+                else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("draw4"))
+                {
+                    if(deckpointer>55)
+                    {
+                        deckpointer = 0;
+                    }
+                    if (mainDeck.getCards()[deckpointer] == null)
+                    {
+                        deckpointer = 0;
+                        mainDeck.populateDeck(allCards);
+                    }
+
+                    if(i==allPlayers.length-1)//check if last player in array to avoid arrayindexoutofboundsexception
+                    {
+
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i-(allPlayers.length-1)].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                    }
+
+
+
+
+                    else
+                    {
+
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                        allPlayers[i+1].getHand().add(mainDeck.getCards()[deckpointer]);
+                        deckpointer++;
+                    }
+
+                }
+
+                if(cardChoice!=0)//calculate points and move cards around at end of turn
+                {
+
+                    points = 0;
+
+                    points = calculatePoints(allPlayers[i].getHand().get(cardChoice-1)); //Calculate points
+
+                    allPlayers[i].setPoints(allPlayers[i].getPoints()+points); //update player points
+
+                    discardPile.add(allPlayers[i].getHand().get(cardChoice-1)); //add card to discard pile
+
+                    discardPileIndex++;
+
+                    System.out.println(allPlayers[i].getHand().get(cardChoice-1).getAttribute());
+
+                    allPlayers[i].getHand().remove(cardChoice-1); //remove card from hand
+                }
 
 
                 if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
@@ -178,12 +255,18 @@ public class testGame {
                     JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
 
                     gameOver = true;
+                    break;
 
                 }
 
                 turns++;
             }
         } turns = 0;
+    }
+
+    public static void reversePlayed()
+    {
+
     }
 
     public static int calculatePoints(normalCard card)
@@ -196,7 +279,24 @@ public class testGame {
 
         return points;
     }
+    public static boolean menuChoiceIsValid(String choice)
+    {
 
+        boolean valid =false;
+        for(int i=0;i<choice.length();i++)
+        {
+            if((Character.isDigit(choice.charAt(i)))&&(choice.length()==1))
+            {
+                int choiceInt = Integer.parseInt(choice);
+                if(choiceInt >=2 && choiceInt <=5)
+                {
+                    valid = true;
+                }
+            }
+        }
+
+        return valid;
+    }
     public static boolean choiceIsValid(String choice)
     {
 
@@ -206,7 +306,7 @@ public class testGame {
             if((Character.isDigit(choice.charAt(i)))&&(choice.length()==1))
             {
                 int choiceInt = Integer.parseInt(choice);
-                if(choiceInt >=1 && choiceInt <=5)
+                if(choiceInt >=1 && choiceInt <=3)
                 {
                     valid = true;
                 }
@@ -219,36 +319,55 @@ public class testGame {
     {
         boolean valid=false;
         int choiceInt =0;
+        int handSize = hand.size();
 
+        if(choice.equals(""))
+            return false;
         if (choice.equals("0"))
         {
             return true;
         }
-        for(int i=0;i<choice.length();i++)
+        else if (choice.equals("00")||choice.equals("000")||choice.equals("0000")||choice.equals("0000"))
         {
-            if(Character.isDigit(choice.charAt(i)))
+            return false;
+        }
+        else
+        {
+            for(int i=0;i<choice.length();i++)
             {
-                choiceInt = Integer.parseInt(choice);
-                if(choiceInt >= 0&&choiceInt<=hand.size())
+                if(Character.isDigit(choice.charAt(i)))
                 {
-                    if(discardPile.get(discardPile.size()-1).getColour().equals("black"))
+                    choiceInt = Integer.parseInt(choice);
+                    if(choiceInt >= 0&&choiceInt<=hand.size())
                     {
-                        valid = true;
+                        if(discardPile.get(discardPile.size()-1).getColour().equals("black"))
+                        {
+                            valid = true;
+                        }
+                        else if((discardPile.get(discardPile.size()-1).getColour().equals(hand.get(choiceInt-1).getColour()))|| (discardPile.get(discardPile.size()-1).getAttribute().equals(hand.get(choiceInt-1).getAttribute())))
+                            valid = true;
+                        else if(hand.get(choiceInt-1).getColour().equals("black"))
+                        {
+                            valid = true;
+                        }
                     }
-                    else if((discardPile.get(discardPile.size()-1).getColour()==hand.get(choiceInt-1).getColour())|| (discardPile.get(discardPile.size()-1).getAttribute().equals(hand.get(choiceInt-1).getAttribute())))
-                    valid = true;
-                    else if(hand.get(choiceInt-1).getColour().equals("black"))
-                    {
-                        valid = true;
-                    }
+                }
+
+                else
+                {
+                    valid = false;
+                    break;
                 }
             }
 
-            else
-            {
-                valid = false;
-            }
         }
+
+
+        if(Integer.parseInt(choice)==0)
+        {
+            valid = false;
+        }
+
         return valid;
 
     }

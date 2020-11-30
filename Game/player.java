@@ -44,6 +44,6 @@ public class player {
         {   if(getHand().get(i)!=null)
             cards += "Card "+(i+1)+": "+getHand().get(i).toString();
         }
-        return cards+"\n\n";
+        return "Remaining cards in hand: \n"+cards+"\n\n";
     }
 }
