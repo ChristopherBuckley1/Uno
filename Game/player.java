@@ -7,10 +7,11 @@ public class player {
     private ArrayList<normalCard> hand;
     private int points;
 
-    public player(String name, ArrayList<normalCard> hand)
+    public player(String name, ArrayList<normalCard> hand,int points)
     {
         setName(name);
         setHand(hand);
+        setPoints(points);
     }
 
     public String getName() {
@@ -41,8 +42,8 @@ public class player {
         String cards = "";
         for(int i=0;i<hand.size();i++)
         {   if(getHand().get(i)!=null)
-            cards += getHand().get(i).toString();
+            cards += "Card "+(i+1)+": "+getHand().get(i).toString();
         }
-        return getName()+" details: \nPoints: "+getPoints()+"\nCards in hand  \n"+cards+"\n\n";
+        return cards+"\n\n";
     }
 }

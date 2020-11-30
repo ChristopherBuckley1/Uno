@@ -30,8 +30,10 @@ public class normalCard{
     public String toString(){
 
 
-        return "Color: "+getColour()+" - Attribute: "+getAttribute()+"\n\n";
+        return "Color: "+getColour()+" - Attribute: "+getAttribute()+"\n";
     }
+
+
 
 
 }
