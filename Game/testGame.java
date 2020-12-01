@@ -476,49 +476,43 @@ public class testGame {
         int choiceInt =0;
         int handSize = hand.size();
 
-        if(choice.equals(""))
-            return false;
-        if (choice.equals("0"))
+
+        if(choice.length()==1&&choice.charAt(0)=='0')
         {
             return true;
         }
-        else if (choice.equals("00")||choice.equals("000")||choice.equals("0000")||choice.equals("0000"))
-        {
+        else if(choice.equals(""))
             return false;
-        }
-        else
-        {
-            for(int i=0;i<choice.length();i++)
-            {
-                if(Character.isDigit(choice.charAt(i)))
-                {
-                    choiceInt = Integer.parseInt(choice);
-                    if(choiceInt >= 0&&choiceInt<=hand.size())
-                    {
-                        if(discardPile.get(discardPile.size()-1).getColour().equals("black"))
-                        {
-                            valid = true;
-                        }
-                        else if((discardPile.get(discardPile.size()-1).getColour().equals(hand.get(choiceInt-1).getColour()))|| (discardPile.get(discardPile.size()-1).getAttribute().equals(hand.get(choiceInt-1).getAttribute())))
-                            valid = true;
-                        else if(hand.get(choiceInt-1).getColour().equals("black"))
-                        {
-                            valid = true;
-                        }
-                    }
-                }
 
-                else
-                {
+        else {
+            for (int i = 0; i < choice.length(); i++) {
+
+
+                if (!Character.isDigit(choice.charAt(i))) {
                     valid = false;
                     break;
+                    }
+
+
+                 }
+
                 }
-            }
 
-        }
+                choiceInt = Integer.parseInt(choice);
 
-
-
+                if(choiceInt >= 0&&choiceInt<=hand.size())
+                {
+                    if(discardPile.get(discardPile.size()-1).getColour().equals("black"))
+                    {
+                        valid = true;
+                    }
+                    else if((discardPile.get(discardPile.size()-1).getColour().equals(hand.get(choiceInt-1).getColour()))|| (discardPile.get(discardPile.size()-1).getAttribute().equals(hand.get(choiceInt-1).getAttribute())))
+                        valid = true;
+                    else if(hand.get(choiceInt-1).getColour().equals("black"))
+                    {
+                        valid = true;
+                    }
+                }
 
         return valid;
 
