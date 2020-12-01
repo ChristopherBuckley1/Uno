@@ -489,8 +489,8 @@ public class testGame {
 
 
                 if (!Character.isDigit(choice.charAt(i))) {
-                    valid = false;
-                    break;
+                    return false;
+
                     }
 
 
