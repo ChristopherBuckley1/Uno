@@ -55,7 +55,7 @@ public class testGame {
         discardPile.add(mainDeck.getCards()[mainDeck.getCards().length-1]);
         mainDeck.getCards()[mainDeck.getCards().length-1]=null;
 
-//end of card generation///////////////////////////////////////////////////////////////////
+
 
 
 
@@ -100,19 +100,22 @@ public class testGame {
                 }
             }
         }
-
+        int i=0;
         while(gameOver != true)
         {
 
 
 
             //Loop through player array for each players turn
-            for(int i=0;i<playerCount;i++)
+
+            for(i=0;i< allPlayers.length;i++)
             {
                 //turn begin
                 cardChoiceAS = JOptionPane.showInputDialog(allPlayers[i].getName()+" Points: "+allPlayers[i].getPoints()+" \n"+
                         "Top Card: "+discardPile.get(discardPileIndex)+"\n"+allPlayers[i].getName()+
                         " - Please select a card\n\n0: Draw a card"+"\n "+  allPlayers[i].toString());
+
+
 
 
 
@@ -231,6 +234,8 @@ public class testGame {
 
                 }
 
+
+
                 if(cardChoice!=0)//calculate points and move cards around at end of turn
                 {
 
@@ -241,32 +246,97 @@ public class testGame {
                     allPlayers[i].setPoints(allPlayers[i].getPoints()+points); //update player points
 
                     discardPile.add(allPlayers[i].getHand().get(cardChoice-1)); //add card to discard pile
-
                     discardPileIndex++;
 
-                    System.out.println(allPlayers[i].getHand().get(cardChoice-1).getAttribute());
+                    if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
+                    {
+                        JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
 
-                    allPlayers[i].getHand().remove(cardChoice-1); //remove card from hand
+                        gameOver = true;
+                        break;
+
+                    }
+
+                    if(cardChoice > 0 )
+                    {
+                        if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("reverse"))
+                        {
+
+                            allPlayers[i].getHand().remove(cardChoice-1); //remove card from hand
+                            allPlayers = reversePlayed(allPlayers,i);
+
+
+                        }
+                        else
+                            allPlayers[i].getHand().remove(cardChoice-1);
+                    }
+                    //THIS LINE WAS CAUSING ISSUE***********************************************************************(double deletion, 90% sure is fixed)
+                    i=0;
                 }
-
-
-                if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
-                {
-                    JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
-
-                    gameOver = true;
-                    break;
-
-                }
-
                 turns++;
             }
         } turns = 0;
     }
 
-    public static void reversePlayed()
+    public static player[] reversePlayed(player allPlayers[],int i)
     {
+        player temp[] = new player[allPlayers.length];
 
+        switch(i)
+        {
+
+            case 0:
+                temp[0]=allPlayers[0];
+                temp[1]=allPlayers[4];
+                temp[2]=allPlayers[3];
+                temp[3]=allPlayers[2];
+                temp[4]=allPlayers[1];
+                break;
+            case 1:
+                temp[0]=allPlayers[1];
+                temp[1]=allPlayers[0];
+                temp[2]=allPlayers[4];
+                temp[3]=allPlayers[3];
+                temp[4]=allPlayers[2];
+
+                break;
+            case 2:
+                temp[0]=allPlayers[2];
+                temp[1]=allPlayers[1];
+                temp[2]=allPlayers[0];
+                temp[3]=allPlayers[4];
+                temp[4]=allPlayers[3];
+
+                break;
+
+            case 3:
+                temp[0]=allPlayers[3];
+                temp[1]=allPlayers[2];
+                temp[2]=allPlayers[1];
+                temp[3]=allPlayers[0];
+                temp[4]=allPlayers[4];
+
+                break;
+
+            case 4:
+                temp[0]=allPlayers[4];
+                temp[1]=allPlayers[3];
+                temp[2]=allPlayers[2];
+                temp[3]=allPlayers[1];
+                temp[4]=allPlayers[0];
+                break;
+        }
+
+        return temp;
+
+
+        /*for(int j=0;j<allPlayers.length/2;j++)//https://stackoverflow.com/a/2137791
+        {
+            player temp = allPlayers[j];
+            allPlayers[j] = allPlayers[allPlayers.length-j-1];
+            allPlayers[allPlayers.length-j-1] = temp;
+
+        }*/
     }
 
     public static int calculatePoints(normalCard card)
@@ -363,10 +433,7 @@ public class testGame {
         }
 
 
-        if(Integer.parseInt(choice)==0)
-        {
-            valid = false;
-        }
+
 
         return valid;
 
