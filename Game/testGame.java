@@ -77,7 +77,7 @@ public class testGame {
             allPlayers[i] = new player("Player " + Integer.toString(i + 1), hands[i],0);//generates player objects
         }
 
-
+        boolean skipPlayed = false;
 
         boolean gameOver = false;
 
@@ -103,7 +103,7 @@ public class testGame {
         int i=0;
         while(gameOver != true)
         {
-
+            skipPlayed = false;
 
 
             //Loop through player array for each players turn
@@ -158,7 +158,28 @@ public class testGame {
                 }
                 else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("skip"))
                 {
+                    skipPlayed = true;
 
+                    points = 0;
+
+                    points = calculatePoints(allPlayers[i].getHand().get(cardChoice-1)); //Calculate points
+
+                    allPlayers[i].setPoints(allPlayers[i].getPoints()+points); //update player points
+
+                    discardPile.add(allPlayers[i].getHand().get(cardChoice-1)); //add card to discard pile
+                    discardPileIndex++;
+
+                    allPlayers[i].getHand().remove(cardChoice - 1);
+
+                    if(i+2<allPlayers.length||i+1> allCards.length)
+                    {
+                        i++;
+                    }
+
+                    else
+                    {
+                        i=0;
+                    }
                 }
 
                 else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("draw2"))
@@ -240,7 +261,7 @@ public class testGame {
 
 
 
-                if(cardChoice!=0)//calculate points and move cards around at end of turn
+                if(cardChoice!=0&&skipPlayed == false)//calculate points and move cards around at end of turn
                 {
 
                     points = 0;
@@ -260,6 +281,7 @@ public class testGame {
                             i=0;
 
                         }
+
                         else{
 
                             allPlayers[i].getHand().remove(cardChoice - 1);
@@ -380,6 +402,20 @@ public class testGame {
                     temp[0] = allPlayers[2];
                     temp[1] = allPlayers[1];
                     temp[2] = allPlayers[0];
+
+                    break;
+            }
+        }
+        else
+        {
+            switch (i) {
+                case 0:
+                    temp[0] = allPlayers[0];
+                    temp[1] = allPlayers[1];
+                    break;
+                case 1:
+                    temp[0] = allPlayers[1];
+                    temp[1] = allPlayers[0];
 
                     break;
             }
