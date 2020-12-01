@@ -156,6 +156,10 @@ public class testGame {
                     }
 
                 }
+                else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("skip"))
+                {
+
+                }
 
                 else if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("draw2"))
                 {
@@ -248,31 +252,31 @@ public class testGame {
                     discardPile.add(allPlayers[i].getHand().get(cardChoice-1)); //add card to discard pile
                     discardPileIndex++;
 
-                    if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
-                    {
-                        JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
-
-                        gameOver = true;
-                        break;
-
-                    }
-
-                    if(cardChoice > 0 )
-                    {
                         if(allPlayers[i].getHand().get(cardChoice-1).getAttribute().equals("reverse"))
                         {
 
                             allPlayers[i].getHand().remove(cardChoice-1); //remove card from hand
                             allPlayers = reversePlayed(allPlayers,i);
-
+                            i=0;
 
                         }
-                        else
-                            allPlayers[i].getHand().remove(cardChoice-1);
-                    }
-                    //THIS LINE WAS CAUSING ISSUE***********************************************************************(double deletion, 90% sure is fixed)
-                    i=0;
+                        else{
+
+                            allPlayers[i].getHand().remove(cardChoice - 1);
+
+                             }
+
                 }
+
+                if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
+                {
+                    JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
+
+                    gameOver = true;
+                    break;
+
+                }
+
                 turns++;
             }
         } turns = 0;
@@ -281,62 +285,107 @@ public class testGame {
     public static player[] reversePlayed(player allPlayers[],int i)
     {
         player temp[] = new player[allPlayers.length];
+        int length = allPlayers.length;
+        if(allPlayers.length==5) {
+            switch (i) {
+                case 0:
+                    temp[0] = allPlayers[0];
+                    temp[1] = allPlayers[4];
+                    temp[2] = allPlayers[3];
+                    temp[3] = allPlayers[2];
+                    temp[4] = allPlayers[1];
+                    break;
+                case 1:
+                    temp[0] = allPlayers[1];
+                    temp[1] = allPlayers[0];
+                    temp[2] = allPlayers[4];
+                    temp[3] = allPlayers[3];
+                    temp[4] = allPlayers[2];
 
-        switch(i)
+                    break;
+                case 2:
+                    temp[0] = allPlayers[2];
+                    temp[1] = allPlayers[1];
+                    temp[2] = allPlayers[0];
+                    temp[3] = allPlayers[4];
+                    temp[4] = allPlayers[3];
+
+                    break;
+
+                case 3:
+                    temp[0] = allPlayers[3];
+                    temp[1] = allPlayers[2];
+                    temp[2] = allPlayers[1];
+                    temp[3] = allPlayers[0];
+                    temp[4] = allPlayers[4];
+
+                    break;
+
+                case 4:
+                    temp[0] = allPlayers[4];
+                    temp[1] = allPlayers[3];
+                    temp[2] = allPlayers[2];
+                    temp[3] = allPlayers[1];
+                    temp[4] = allPlayers[0];
+                    break;
+            }
+
+        }
+        else if(allPlayers.length==4) {
+            switch (i) {
+                case 0:
+                    temp[0] = allPlayers[0];
+                    temp[1] = allPlayers[3];
+                    temp[2] = allPlayers[2];
+                    temp[3] = allPlayers[1];
+
+                    break;
+                case 1:
+                    temp[0] = allPlayers[1];
+                    temp[1] = allPlayers[0];
+                    temp[2] = allPlayers[3];
+                    temp[3] = allPlayers[2];
+
+
+                    break;
+                case 2:
+                    temp[0] = allPlayers[2];
+                    temp[1] = allPlayers[1];
+                    temp[2] = allPlayers[0];
+                    temp[3] = allPlayers[3];
+                    break;
+
+                case 3:
+                    temp[0] = allPlayers[3];
+                    temp[1] = allPlayers[2];
+                    temp[2] = allPlayers[1];
+                    temp[3] = allPlayers[0];
+                    break;
+            }
+        }
+        else if(allPlayers.length==3)
         {
+            switch (i) {
+                case 0:
+                    temp[0] = allPlayers[0];
+                    temp[1] = allPlayers[2];
+                    temp[2] = allPlayers[1];
+                    break;
+                case 1:
+                    temp[0] = allPlayers[1];
+                    temp[1] = allPlayers[0];
+                    temp[2] = allPlayers[2];
+                    break;
+                case 2:
+                    temp[0] = allPlayers[2];
+                    temp[1] = allPlayers[1];
+                    temp[2] = allPlayers[0];
 
-            case 0:
-                temp[0]=allPlayers[0];
-                temp[1]=allPlayers[4];
-                temp[2]=allPlayers[3];
-                temp[3]=allPlayers[2];
-                temp[4]=allPlayers[1];
-                break;
-            case 1:
-                temp[0]=allPlayers[1];
-                temp[1]=allPlayers[0];
-                temp[2]=allPlayers[4];
-                temp[3]=allPlayers[3];
-                temp[4]=allPlayers[2];
-
-                break;
-            case 2:
-                temp[0]=allPlayers[2];
-                temp[1]=allPlayers[1];
-                temp[2]=allPlayers[0];
-                temp[3]=allPlayers[4];
-                temp[4]=allPlayers[3];
-
-                break;
-
-            case 3:
-                temp[0]=allPlayers[3];
-                temp[1]=allPlayers[2];
-                temp[2]=allPlayers[1];
-                temp[3]=allPlayers[0];
-                temp[4]=allPlayers[4];
-
-                break;
-
-            case 4:
-                temp[0]=allPlayers[4];
-                temp[1]=allPlayers[3];
-                temp[2]=allPlayers[2];
-                temp[3]=allPlayers[1];
-                temp[4]=allPlayers[0];
-                break;
+                    break;
+            }
         }
 
         return temp;
-
-
-        /*for(int j=0;j<allPlayers.length/2;j++)//https://stackoverflow.com/a/2137791
-        {
-            player temp = allPlayers[j];
-            allPlayers[j] = allPlayers[allPlayers.length-j-1];
-            allPlayers[allPlayers.length-j-1] = temp;
-
-        }*/
     }
 
     public static int calculatePoints(normalCard card)
