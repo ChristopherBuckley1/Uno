@@ -109,7 +109,7 @@ public class testGame {
         {
             for (int i = 0; i < playerCount; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
                     mainDeck.getCards()[j] = null;
@@ -522,8 +522,6 @@ public class testGame {
                     return false;
 
                     }
-
-
                  }
 
                 }
