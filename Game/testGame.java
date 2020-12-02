@@ -11,8 +11,20 @@ public class testGame {
 
         String menuChoice = "";
 
+
+
             while(!menuChoice.equals("3"))
             {
+                File inFile = new File("game_history.data");
+
+                FileInputStream inStream = new FileInputStream(inFile);
+
+                ObjectInputStream objectInStream = new ObjectInputStream(inStream);
+
+                String gameHistory = (String) objectInStream.readObject();
+
+                gameDetails += gameHistory;
+
                 menuChoice = JOptionPane.showInputDialog("Welcome to uno! Please enter a choice\n\n1. New game\n\n2. Game History\n\n3. Quit");
                 while(!choiceIsValid(menuChoice))
                 {
@@ -21,33 +33,12 @@ public class testGame {
                 if (menuChoice.equals("1"))
                 {
                     startGame();
-                    if(!gameDetails.equals("")){
-                        File outFile = new File("game_history.data");
-
-                        FileOutputStream outStream = new FileOutputStream(outFile);
-
-                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
-
-                        objectOutputStream.writeObject(gameDetails);
-
-                        outStream.close();
-                    }
 
                 }
                 else if (menuChoice.equals("2"))
                 {
 
-                        File inFile = new File("game_history.data");
-                        FileInputStream inStream = new FileInputStream(inFile);
-
-                        ObjectInputStream objectInStream = new ObjectInputStream(inStream);
-
-                        String gameHistory = (String) objectInStream.readObject();
-
                         JOptionPane.showMessageDialog(null,gameHistory,"Game History",JOptionPane.INFORMATION_MESSAGE);
-
-
-
                 }
                 else if (menuChoice.equals("3"))
                 {
@@ -319,9 +310,19 @@ public class testGame {
                 if (allPlayers[i].getHand().size() == 0||allPlayers[i].getPoints()>= 135) //Check for winner
                 {
                     JOptionPane.showMessageDialog(null,allPlayers[i] + allPlayers[i].getName()+ " Wins! Points: "+allPlayers[i].getPoints());
-                    gameDetails = "";
 
-                    gameDetails = "Winner: "+allPlayers[i].getName() + " Points: "+Integer.toString(allPlayers[i].getPoints())+"Number of turns: "+Integer.toString(turns);
+
+                    gameDetails += "\nWinner: "+allPlayers[i].getName() + " Points: "+Integer.toString(allPlayers[i].getPoints())+" Number of turns: "+Integer.toString(turns)+"\n";
+
+                    File outFile = new File("game_history.data");
+
+                    FileOutputStream outStream = new FileOutputStream(outFile);
+
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
+
+                    objectOutputStream.writeObject(gameDetails);
+
+                    outStream.close();
 
                     gameOver = true;
                     break;
