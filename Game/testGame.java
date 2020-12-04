@@ -84,7 +84,9 @@ public class testGame {
         }
 
         int playerCount = Integer.parseInt(playerCountAS);
+
         ArrayList<normalCard>[] hands = new ArrayList[playerCount];
+
         player allPlayers[] = new player[playerCount];//Generate array to store players
 
 
@@ -109,6 +111,7 @@ public class testGame {
         {
             for (int i = 0; i < playerCount; i++)
             {
+
                 for (int j = 0; j < 7; j++)
                 {
                     allPlayers[i].getHand().add(mainDeck.getCards()[deckpointer]);
@@ -188,7 +191,19 @@ public class testGame {
 
                     allPlayers[i].getHand().remove(cardChoice - 1);
 
-                    if(i+2<allPlayers.length||i+1> allCards.length)
+                    if(allPlayers.length==2)
+                    {
+                        if(i==0)
+                        {
+                            i++;
+                        }
+                        else
+                        {
+                            i--;
+                        }
+                    }
+
+                    else if(i+2<allPlayers.length)
                     {
                         i++;
                     }
